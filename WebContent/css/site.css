@@ -1,0 +1,4 @@
+.form-control[readonly].datetimepicker {
+    background-color: #ffffff;
+    opacity: 1;
+}

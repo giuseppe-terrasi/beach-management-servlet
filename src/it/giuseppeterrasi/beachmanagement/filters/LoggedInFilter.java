@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter("/*")
+@WebFilter("/pippo")
 public class LoggedInFilter implements Filter {
 
 	@Override
@@ -21,6 +21,11 @@ public class LoggedInFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpSession session = request.getSession(false);
+		
+		if(request.getRequestURI().matches(".*(css|jpg|png|gif|js)")){
+		    chain.doFilter(request, response);
+		    return;
+		}
 		
 		boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
 		String loginPath = request.getContextPath() + "/login";
