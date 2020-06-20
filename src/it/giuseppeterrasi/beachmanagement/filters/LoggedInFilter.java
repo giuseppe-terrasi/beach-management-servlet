@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter("/pippo")
+@WebFilter("/")
 public class LoggedInFilter implements Filter {
 
 	@Override
