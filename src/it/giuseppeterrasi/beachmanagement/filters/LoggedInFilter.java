@@ -27,7 +27,7 @@ public class LoggedInFilter implements Filter {
 		    return;
 		}
 		
-		boolean isLoggedIn = (session != null && session.getAttribute("user") != null);
+		boolean isLoggedIn = (session != null && session.getAttribute("isLoggedIn") != null);
 		String loginPath = request.getContextPath() + "/login";
 		boolean isLoginRequest = request.getRequestURI().equals(loginPath);
 		

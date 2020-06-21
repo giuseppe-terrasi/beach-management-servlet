@@ -37,12 +37,12 @@
               <div class="col-lg-12">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Login</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Login2</h1>
                   </div>
-                  <c:if test="${param.error}">
+                  <c:if test="${error}">
                     <span class="text-danger">Invalid credentials</span>
                   </c:if>
-                  <form class="user" action="/login" method="POST">
+                  <form class="user" action="login" method="POST">
                     <div class="form-group">
                       <input type="text" class="form-control form-control-user" name="username" placeholder="Username">
                     </div>
