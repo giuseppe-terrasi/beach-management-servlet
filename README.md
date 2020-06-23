@@ -1,3 +1,3 @@
 # Beach Management
 
-Univertity Java Dynamic Web Project for beach management
+University Java Dynamic Web Project for beach management using servlets.
