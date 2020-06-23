@@ -14,7 +14,7 @@
   <title>SB Admin 2 - Register</title>
 
   <!-- Custom fonts for this template-->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="vendors/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
@@ -35,25 +35,26 @@
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                 <span class="text-success">${successMessage}</span>
+                <span class="text-danger">${errorMessage}</span>
               </div>
-              <form class="user" action="/registration" method="post">
+              <form class="user" action="registration" method="post">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" placeholder="First Name" />
+                    <input type="text" class="form-control form-control-user" name="firstName" value="${userModel.firstName}" placeholder="First Name" />
                   </div>
                   <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" placeholder="Last Name" />
+                    <input type="text" class="form-control form-control-user" name="lastName" value="${userModel.lastName}" placeholder="Last Name" />
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control form-control-user" placeholder="username" />
+                  <input type="text" class="form-control form-control-user" name="username" value="${userModel.username}" placeholder="Username" />
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="password" class="form-control form-control-user" placeholder="Password" />
+                    <input type="password" class="form-control form-control-user" name="password" value="${userModel.password}" placeholder="Password" />
                   </div>
                   <div class="col-sm-6">
-                    <input type="password" class="form-control form-control-user" placeholder="Repeat Password" />
+                    <input type="password" class="form-control form-control-user" name="confirmPassword" value="${userModel.confirmPassword}" placeholder="Repeat Password" />
                   </div>
                 </div>
                 <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -65,7 +66,7 @@
                 <a class="small" href="forgot-password.html">Forgot Password?</a>
               </div>
               <div class="text-center">
-                <a class="small" href="/login">Already have an account? Login!</a>
+                <a class="small" href="login">Already have an account? Login!</a>
               </div>
             </div>
           </div>
@@ -76,11 +77,11 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="vendors/jquery/jquery.min.js"></script>
+  <script src="vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="vendors/jquery-easing/jquery.easing.min.js"></script>
 
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
