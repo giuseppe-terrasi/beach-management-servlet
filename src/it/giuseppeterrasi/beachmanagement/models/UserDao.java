@@ -181,10 +181,4 @@ public class UserDao implements Serializable {
 	      spec.clearPassword();
 	    }
 	 }
-	 
-	  private static boolean verifyPassword (String password, String key, String salt) {
-	    Optional<String> optEncrypted = hashPassword(password, salt);
-	    if (!optEncrypted.isPresent()) return false;
-	    return optEncrypted.get().equals(key);
-	  }
 }
