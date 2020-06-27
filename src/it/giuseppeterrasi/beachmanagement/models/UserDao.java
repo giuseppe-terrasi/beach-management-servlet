@@ -82,12 +82,15 @@ public class UserDao implements Serializable {
 	}
 	
 	
-	public boolean login(DataSource dataSource) {
-		
-		boolean login = false;
+	public AppUser login(DataSource dataSource) {
+		AppUser appUser = null;
 		try {
 			Connection connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT * FROM users WHERE username = ? and password = ?");
+			PreparedStatement statement = connection.prepareStatement(
+					"SELECT first_name, last_name, username, role " +
+					"FROM beachmanagement.users u " + 
+					"INNER JOIN user_roles ur on ur.user_id = u.id " + 
+					"INNER JOIN roles r on ur.role_id = r.id WHERE username = ? and password = ?");
 			statement.setString(1, username);
 			statement.setString(2, hashPassword(password, SALT).get());
 			statement.execute();
@@ -95,10 +98,12 @@ public class UserDao implements Serializable {
 			ResultSet rs = statement.getResultSet();
 			
 			if(rs.isBeforeFirst()) {
+				appUser = new AppUser();
+				
 				while(rs.next()) {
-					firstName = rs.getString("first_name");
-					lastName = rs.getString("last_name");
-					login = true;
+					appUser.setFirstName(rs.getString("first_name"));
+					appUser.setLastName(rs.getString("last_name"));
+					appUser.getRoles().add(rs.getString("role"));
 				}
 			}
 			
@@ -108,7 +113,7 @@ public class UserDao implements Serializable {
 			e.printStackTrace();
 		}
 		
-		return login;
+		return appUser;
 	}
 	
 	public int create(DataSource dataSource) {

@@ -2,6 +2,7 @@
 <%@attribute name="styles" fragment="true" %>
 <%@attribute name="scripts" fragment="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -66,7 +67,7 @@
       </li>
       <!-- Divider -->
       <hr class="sidebar-divider">
-
+      <c:if test="${fn:contains(sessionScope.appUser.roles, 'ADMIN')}">
         <!-- Heading -->
         <div class="sidebar-heading">
           ADMIN
@@ -89,7 +90,7 @@
             <i class="fa fa-users"></i>
             <span>Users</span></a>
         </li>
-
+	
         <%-- <!-- Nav Item - Utilities Collapse Menu -->
         <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
@@ -109,6 +110,7 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
+      </c:if>
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
@@ -277,6 +279,7 @@
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                ${sessionScope.appUser.firstName} ${sessionScope.appUser.lastName}
                 </span>
                 <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
               </a>

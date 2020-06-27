@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter("/")
+@WebFilter("/*")
 public class LoggedInFilter implements Filter {
 
 	@Override
@@ -27,14 +27,14 @@ public class LoggedInFilter implements Filter {
 		    return;
 		}
 		
-		boolean isLoggedIn = (session != null && session.getAttribute("isLoggedIn") != null);
+		boolean isLoggedIn = (session != null && session.getAttribute("appUser") != null);
 		String loginPath = request.getContextPath() + "/login";
 		boolean isLoginRequest = request.getRequestURI().equals(loginPath);
 		
 		if(!isLoggedIn && !isLoginRequest)
 			response.sendRedirect(request.getContextPath() + "/login");
 		else if(isLoggedIn && isLoginRequest)
-			response.sendRedirect(request.getContextPath() + "/");
+			response.sendRedirect(request.getContextPath() + "/home");
 		else
 			chain.doFilter(request, response);
 		

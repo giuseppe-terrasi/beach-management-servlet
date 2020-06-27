@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import it.giuseppeterrasi.beachmanagement.models.AppUser;
 import it.giuseppeterrasi.beachmanagement.models.UserDao;
 
 /**
@@ -42,12 +43,10 @@ public class LoginServlet extends HttpServlet {
 		userDao.setPassword(request.getParameter("password"));
 		DataSource datasource = (DataSource) getServletContext().getAttribute("datasource");
 		
-		boolean loggedIn = userDao.login(datasource);
+		AppUser appUser = userDao.login(datasource);
 		
-		if(loggedIn) {
-			request.getSession().setAttribute("isLoggedIn", true);
-			request.getSession().setAttribute("firstName", userDao.getFirstName());
-			request.getSession().setAttribute("lastName", userDao.getLastName());
+		if(appUser != null) {
+			request.getSession().setAttribute("appUser", appUser);
 			response.sendRedirect(request.getContextPath() + "/");
 			
 		} else {
