@@ -43,11 +43,14 @@ public class LoginServlet extends HttpServlet {
 		userDao.setPassword(request.getParameter("password"));
 		DataSource datasource = (DataSource) getServletContext().getAttribute("datasource");
 		
+		String requestUrl = (String)request.getAttribute("requestUrl");
+		
 		AppUser appUser = userDao.login(datasource);
 		
 		if(appUser != null) {
 			request.getSession().setAttribute("appUser", appUser);
-			response.sendRedirect(request.getContextPath() + "/");
+			requestUrl = requestUrl != null ? requestUrl : request.getContextPath() + "/";
+			response.sendRedirect(requestUrl);
 			
 		} else {
 			request.setAttribute("error", true);

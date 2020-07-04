@@ -12,8 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebFilter("/*")
-public class LoggedInFilter implements Filter {
+import it.giuseppeterrasi.beachmanagement.models.AppUser;
+
+@WebFilter("/admin/*")
+public class AdminFilter implements Filter{
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
@@ -22,25 +24,21 @@ public class LoggedInFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpSession session = request.getSession(false);
 		
-		if(request.getRequestURI().matches(".*(css|jpg|png|gif|js)")){
-		    chain.doFilter(request, response);
-		    return;
+		AppUser appUser = null;
+		
+		if(session != null) {
+			appUser = (AppUser)session.getAttribute("appUser");
 		}
 		
-		boolean isLoggedIn = (session != null && session.getAttribute("appUser") != null);
-		String loginPath = request.getContextPath() + "/login";
-		String requestUrl = request.getRequestURI();
-		boolean isLoginRequest = requestUrl.equals(loginPath);
 		
-		if(!isLoggedIn && !isLoginRequest)
+		if(appUser != null && appUser.getRoles().contains("ADMIN"))
+		{
+			chain.doFilter(request, response);	
+		}
+		else
 		{
 			response.sendRedirect(request.getContextPath() + "/login");
 		}
-		else if(isLoggedIn && isLoginRequest)
-			response.sendRedirect(request.getContextPath() + "/");
-		else
-			chain.doFilter(request, response);
-		
 	}
 
 }
