@@ -1,4 +1,4 @@
-package it.giuseppeterrasi.beachmanagement.models;
+package it.giuseppeterrasi.beachmanagement.daos;
 
 import java.io.Serializable;
 import java.security.NoSuchAlgorithmException;
@@ -15,6 +15,8 @@ import java.util.Optional;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.sql.DataSource;
+
+import it.giuseppeterrasi.beachmanagement.models.AppUser;
 
 public class UserDao implements Serializable {
 

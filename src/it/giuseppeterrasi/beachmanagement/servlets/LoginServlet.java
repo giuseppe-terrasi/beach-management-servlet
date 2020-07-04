@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import it.giuseppeterrasi.beachmanagement.daos.UserDao;
 import it.giuseppeterrasi.beachmanagement.models.AppUser;
-import it.giuseppeterrasi.beachmanagement.models.UserDao;
 
 /**
  * Servlet implementation class LoginServlet

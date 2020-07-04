@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-import it.giuseppeterrasi.beachmanagement.models.UserDao;
+import it.giuseppeterrasi.beachmanagement.daos.UserDao;
 
 /**
  * Servlet implementation class Registration

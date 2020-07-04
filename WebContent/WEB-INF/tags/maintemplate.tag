@@ -17,12 +17,12 @@
   <title>Beach management</title>
 
   <!-- Custom fonts for this template-->
-  <link href="vendors/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="<c:url value="/vendors/fontawesome-free/css/all.min.css"/>" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
-  <link href="css/sb-admin-2.min.css" rel="stylesheet">
-  <link href="css/site.css" rel="stylesheet">
+  <link href="<c:url value="/css/sb-admin-2.min.css" />" rel="stylesheet">
+  <link href="<c:url value="/css/site.css" />" rel="stylesheet">
 
   <%-- Page level styles --%>
   <jsp:invoke fragment="styles"/>
@@ -80,8 +80,8 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item ${cssActivePage == 'gird' ? 'active' : ''}">
-          <a class="nav-link" href='<c:url value="/admin/grid"/>'>
-            <i class="fas fa-fw fa-tachometer-alt"></i>
+          <a class="nav-link" href='<c:url value="/admin/umbrellagrid"/>'>
+            <i class="fas fa-grip-vertical"></i>
             <span>Umbrella grid</span></a>
         </li>
 
@@ -360,14 +360,14 @@
   </div>
 
   <!-- Bootstrap core JavaScript-->
-  <script src="vendors/jquery/jquery.min.js"></script>
-  <script src="vendors/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<c:url value="/vendors/jquery/jquery.min.js" />"></script>
+  <script src="<c:url value="/vendors/bootstrap/js/bootstrap.bundle.min.js" />"></script>
 
   <!-- Core plugin JavaScript-->
-  <script src="vendors/jquery-easing/jquery.easing.min.js"></script>
+  <script src="<c:url value="/vendors/jquery-easing/jquery.easing.min.js" />"></script>
 
   <!-- Custom scripts for all pages-->
-  <script src="js/sb-admin-2.min.js"></script>
+  <script src="<c:url value="/js/sb-admin-2.min.js" />"></script>
 
   <!-- Page level plugins -->
   <jsp:invoke fragment="scripts"/>
