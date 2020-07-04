@@ -60,8 +60,8 @@
         </a>
         <div id="collapseBooking" class="collapse" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/book">Book now</a>
-            <a class="collapse-item" href="/mybookings">List</a>
+            <a class="collapse-item" href="<c:url value="/book"/>">Book now</a>
+            <a class="collapse-item" href="<c:url value="/mybookings"/>">List</a>
           </div>
         </div>
       </li>
@@ -73,20 +73,20 @@
           ADMIN
         </div>
         <li class="nav-item ${cssActivePage == 'dashboard' ? 'active' : ''}">
-          <a class="nav-link" href="/admin/dashboard">
+          <a class="nav-link" href="<c:url value="/admin/dashboard"/>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
         </li>
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item ${cssActivePage == 'gird' ? 'active' : ''}">
-          <a class="nav-link" href="/admin/grid">
+          <a class="nav-link" href='<c:url value="/admin/grid"/>'>
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Umbrella grid</span></a>
         </li>
 
         <li class="nav-item ${cssActivePage == 'manageUsers' ? 'active' : ''}">
-          <a class="nav-link" href="/admin/users">
+          <a class="nav-link" href="<c:url value="/admin/users"/>">
             <i class="fa fa-users"></i>
             <span>Users</span></a>
         </li>
