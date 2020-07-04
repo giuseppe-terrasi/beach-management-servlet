@@ -29,14 +29,16 @@ public class LoggedInFilter implements Filter {
 		
 		boolean isLoggedIn = (session != null && session.getAttribute("appUser") != null);
 		String loginPath = request.getContextPath() + "/login";
+		String registrationPath = request.getContextPath() + "/registration";
 		String requestUrl = request.getRequestURI();
 		boolean isLoginRequest = requestUrl.equals(loginPath);
+		boolean isRegistrationRequest = requestUrl.equals(registrationPath);
 		
-		if(!isLoggedIn && !isLoginRequest)
+		if(!isLoggedIn && !isLoginRequest && !isRegistrationRequest)
 		{
 			response.sendRedirect(request.getContextPath() + "/login");
 		}
-		else if(isLoggedIn && isLoginRequest)
+		else if(isLoggedIn && (isLoginRequest || isRegistrationRequest))
 			response.sendRedirect(request.getContextPath() + "/");
 		else
 			chain.doFilter(request, response);
