@@ -35,7 +35,7 @@ public abstract class BaseDao implements Serializable {
 		if(rs.isBeforeFirst()) {
 			rs.next();
 			
-			rowId = rs.getInt(0);
+			rowId = rs.getInt(1);
 			
 		}
 		
