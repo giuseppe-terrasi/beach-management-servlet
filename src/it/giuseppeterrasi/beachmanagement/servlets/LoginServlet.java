@@ -38,14 +38,14 @@ public class LoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		UserDao userDao = new UserDao();
+		DataSource datasource = (DataSource) getServletContext().getAttribute("datasource");
+		UserDao userDao = new UserDao(datasource);
 		userDao.setUsername(request.getParameter("username"));
 		userDao.setPassword(request.getParameter("password"));
-		DataSource datasource = (DataSource) getServletContext().getAttribute("datasource");
 		
 		String requestUrl = (String)request.getAttribute("requestUrl");
 		
-		AppUser appUser = userDao.login(datasource);
+		AppUser appUser = userDao.login();
 		
 		if(appUser != null) {
 			request.getSession().setAttribute("appUser", appUser);

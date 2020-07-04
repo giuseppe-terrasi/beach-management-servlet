@@ -38,16 +38,15 @@ public class Registration extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-		UserDao userDao = new UserDao();
+		DataSource dataSource = (DataSource) getServletContext().getAttribute("datasource");
+		UserDao userDao = new UserDao(dataSource);
 		userDao.setFirstName(request.getParameter("firstName"));
 		userDao.setLastName(request.getParameter("lastName"));
 		userDao.setUsername(request.getParameter("username"));
 		userDao.setPassword(request.getParameter("password"));
 		userDao.setConfirmPassword(request.getParameter("confirmPassword"));
 		
-		DataSource dataSource = (DataSource) getServletContext().getAttribute("datasource");
-		
-		int created = userDao.create(dataSource);
+		int created = userDao.create();
 		
 		if(created > 0) request.setAttribute("successMessage", "Registration succeded");
 		else if(created < 0) request.setAttribute("errorMessage", "User already exists");
