@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.sql.DataSource;
 
@@ -194,7 +195,9 @@ public class BookingDao extends BaseDao{
 			connection.close();
 			
 			for (BookingDao bookingDao : bookings) {
-				bookingDao.price = bookingDao.umbrellas.stream().mapToDouble(u -> u.getPrice()).sum();
+				long diffInMillies = bookingDao.to.getTime() - bookingDao.from.getTime();
+				long diff = TimeUnit.HOURS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+				bookingDao.price = bookingDao.umbrellas.stream().mapToDouble(u -> u.getPrice()).sum() * (diff / 6);
 			}
 			
 		} catch (SQLException e) {
