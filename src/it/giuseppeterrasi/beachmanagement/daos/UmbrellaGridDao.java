@@ -36,6 +36,8 @@ public class UmbrellaGridDao extends BaseDao implements Serializable {
     private int capacity;
 
     private float price;
+    
+    private boolean available;
 
 	public int getId() {
 		return id;
@@ -77,7 +79,15 @@ public class UmbrellaGridDao extends BaseDao implements Serializable {
 		this.price = price;
 	}
 
-    public int save() {
+    public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
+
+	public int save() {
 		int created = 0;
 		try {
 			connection = dataSource.getConnection();
@@ -134,6 +144,50 @@ public class UmbrellaGridDao extends BaseDao implements Serializable {
 					item.gridColumn = rs.getInt("grid_column");
 					item.capacity = rs.getInt("capacity");
 					item.price = rs.getFloat("price");
+					
+					list.add(item);
+				}
+				rs.close();
+				
+		        return list.stream().collect(Collectors.groupingBy(g -> g.getGridRow())).entrySet();
+			}
+			
+			connection.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+    	
+    	return null;
+    }
+    
+    public Set<Entry<Integer, List<UmbrellaGridDao>>> getCurrentGridStatus() {
+    	try {
+			connection = dataSource.getConnection();
+			PreparedStatement statement = connection.prepareStatement("SELECT g.*, b.id as bookingId " + 
+					"FROM beachmanagement.umbrella_grid g " + 
+					"left join booking_umbrellas bu on bu.umbrella_grid_id = g.id " + 
+					"left join booking b on bu.booking_id = b.id and b.to_date >= now()  ");
+			statement.execute();
+			
+			ResultSet rs = statement.getResultSet();
+			
+			if(rs.isBeforeFirst()) {
+				List<UmbrellaGridDao> list = new ArrayList<UmbrellaGridDao>();
+				while(rs.next()) {
+					UmbrellaGridDao item = new UmbrellaGridDao();
+					item.id = rs.getInt("id");
+					item.gridRow = rs.getInt("grid_row");
+					item.gridColumn = rs.getInt("grid_column");
+					item.capacity = rs.getInt("capacity");
+					item.price = rs.getFloat("price");
+					
+					rs.getInt("bookingId");
+					
+					item.available = rs.wasNull();
 					
 					list.add(item);
 				}
