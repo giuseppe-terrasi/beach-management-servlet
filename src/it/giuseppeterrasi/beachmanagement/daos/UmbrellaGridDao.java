@@ -170,7 +170,7 @@ public class UmbrellaGridDao extends BaseDao implements Serializable {
 			PreparedStatement statement = connection.prepareStatement("SELECT g.*, b.id as bookingId " + 
 					"FROM beachmanagement.umbrella_grid g " + 
 					"left join booking_umbrellas bu on bu.umbrella_grid_id = g.id " + 
-					"left join booking b on bu.booking_id = b.id and b.to_date >= now()  ");
+					"left join booking b on bu.booking_id = b.id and now() between b.from_date and b.to_date  ");
 			statement.execute();
 			
 			ResultSet rs = statement.getResultSet();
