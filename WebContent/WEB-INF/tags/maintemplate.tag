@@ -54,14 +54,14 @@
       </li>
 
       <li class="nav-item ${(cssActivePage == 'bookUmbrella' || cssActivePage == 'bookUmbrellaList') ? 'active' : ''}">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseBooking" aria-expanded="true" aria-controls="collapseBooking">
+        <a class="nav-link ${cssCollapsedDropdown == 'userBooking' ? '' : 'collapsed'}" href="#" data-toggle="collapse" data-target="#collapseBooking" aria-expanded="true" aria-controls="collapseBooking">
           <i class="fas fa-book"></i>
           <span>My bookings</span>
         </a>
-        <div id="collapseBooking" class="collapse" data-parent="#accordionSidebar">
+        <div id="collapseBooking" class="collapse ${cssShowDropdownContent == 'userBooking' ? 'show' : ''}"" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="<c:url value="/book"/>">Book now</a>
-            <a class="collapse-item" href="<c:url value="/mybookings"/>">List</a>
+            <a class="collapse-item ${cssActivePage == 'userBookNow' ? 'active' : ''}"" href="<c:url value="/book"/>">Book now</a>
+            <a class="collapse-item ${cssActivePage == 'userBookingList' ? 'active' : ''}" href="<c:url value="/mybookings"/>" >List</a>
           </div>
         </div>
       </li>
