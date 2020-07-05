@@ -122,7 +122,7 @@ public class UserDao extends BaseDao implements Serializable {
 		try {
 			connection = dataSource.getConnection();
 			PreparedStatement statement = connection.prepareStatement(
-					"SELECT first_name, last_name, username, role " +
+					"SELECT u.id, first_name, last_name, username, role " +
 					"FROM beachmanagement.users u " + 
 					"INNER JOIN user_roles ur on ur.user_id = u.id " + 
 					"INNER JOIN roles r on ur.role_id = r.id WHERE username = ? and password = ?");
@@ -136,6 +136,7 @@ public class UserDao extends BaseDao implements Serializable {
 				appUser = new AppUser();
 				
 				while(rs.next()) {
+					appUser.setId(rs.getLong("id"));
 					appUser.setFirstName(rs.getString("first_name"));
 					appUser.setLastName(rs.getString("last_name"));
 					appUser.getRoles().add(rs.getString("role"));

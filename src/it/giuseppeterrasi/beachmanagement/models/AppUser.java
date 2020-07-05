@@ -5,6 +5,8 @@ import java.util.List;
 
 public class AppUser {
 
+	private long id;
+	
 	private String firstName;
 	
 	private String lastName;
@@ -15,6 +17,14 @@ public class AppUser {
 	
 	public AppUser() {
 		roles = new ArrayList<String>();
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getFirstName() {
