@@ -48,7 +48,7 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
       <li class="nav-item ${cssActivePage == 'home' ? 'active' : ''}">
-        <a class="nav-link" href="/">
+        <a class="nav-link" href="<c:url value="/"/>">
           <i class="fas fa-home"></i>
           <span>Home</span></a>
       </li>
