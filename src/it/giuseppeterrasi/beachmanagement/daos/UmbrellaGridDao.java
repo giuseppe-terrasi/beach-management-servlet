@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -165,12 +166,33 @@ public class UmbrellaGridDao extends BaseDao implements Serializable {
     }
     
     public Set<Entry<Integer, List<UmbrellaGridDao>>> getCurrentGridStatus() {
+    	return getCurrentGridStatus(null, null);
+    }
+    
+    public Set<Entry<Integer, List<UmbrellaGridDao>>> getCurrentGridStatus(Timestamp fromDate, Timestamp toDate) {
     	try {
 			connection = dataSource.getConnection();
-			PreparedStatement statement = connection.prepareStatement("SELECT g.*, b.id as bookingId " + 
+			
+			String query = "SELECT g.*, b.id as bookingId " + 
 					"FROM beachmanagement.umbrella_grid g " + 
 					"left join booking_umbrellas bu on bu.umbrella_grid_id = g.id " + 
-					"left join booking b on bu.booking_id = b.id and now() between b.from_date and b.to_date  ");
+					"left join booking b on bu.booking_id = b.id  ";
+			
+			if(fromDate != null && toDate != null) {
+				query += "and b.from_date <= ? and b.to_date >= ?";
+			}
+			else
+			{
+				query += "and now() between b.from_date and b.to_date ";
+			}
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+		
+			if(fromDate != null && toDate != null) {
+				statement.setTimestamp(1, fromDate);
+				statement.setTimestamp(2, toDate);
+			}
+			
 			statement.execute();
 			
 			ResultSet rs = statement.getResultSet();

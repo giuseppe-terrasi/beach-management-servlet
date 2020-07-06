@@ -1,11 +1,22 @@
 package it.giuseppeterrasi.beachmanagement.servlets;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
+
+import it.giuseppeterrasi.beachmanagement.daos.BookingDao;
+import it.giuseppeterrasi.beachmanagement.models.AppUser;
 
 /**
  * Servlet implementation class BookNowServlet
@@ -36,7 +47,30 @@ public class BookNowServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		DataSource dataSource = (DataSource) getServletContext().getAttribute("datasource");
+		HttpSession session = request.getSession();
+		BookingDao bookingDao = new BookingDao(dataSource);
+		
+		AppUser appUser = (AppUser)session.getAttribute("appUser");
+		
+		String[] gridIdStrings = request.getParameterValues("grid-id");
+		int[] gridIds = Arrays.stream(gridIdStrings).mapToInt(Integer::parseInt).toArray();
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+	    Date parsedDate;
+	    Timestamp fromDate;
+	    Timestamp toDate;
+		try {
+			parsedDate = dateFormat.parse(request.getParameter("dateFrom"));
+		    fromDate = new java.sql.Timestamp(parsedDate.getTime());
+		    parsedDate = dateFormat.parse(request.getParameter("dateTo"));
+		    toDate = new java.sql.Timestamp(parsedDate.getTime());
+		    
+		    bookingDao.book(appUser.getId(), fromDate, toDate, 2, gridIds);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
 		doGet(request, response);
 	}
 

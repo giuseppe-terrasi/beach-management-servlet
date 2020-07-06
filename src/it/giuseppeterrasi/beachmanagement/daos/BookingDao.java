@@ -106,6 +106,11 @@ public class BookingDao extends BaseDao{
 		return getAllBookings(userId, null, null);
 	}
 	
+	public List<BookingDao> getBookingsBetween(java.sql.Date fromDate, java.sql.Date toDate) {
+		return getAllBookings(0, fromDate, toDate);
+	}
+	
+	
 	public List<BookingDao> getAllBookings(long userId, java.sql.Date fromDate, java.sql.Date toDate) {
 		
 		List<BookingDao> bookings = new ArrayList<BookingDao>();
@@ -210,4 +215,62 @@ public class BookingDao extends BaseDao{
     	return bookings;
 	}
 	
+	
+	public int book(long userId, java.sql.Timestamp fromDate, java.sql.Timestamp toDate, int numberOfPersons, int[] gridIds) {
+		int created = 0;
+		try {
+			connection = dataSource.getConnection();
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM booking WHERE user_id = ? AND from_date = ? AND to_date = ?");
+			statement.setLong(1, userId);
+			statement.setTimestamp(2, fromDate);
+			statement.setTimestamp(3, toDate);
+			statement.execute();
+			
+			ResultSet rs = statement.getResultSet();
+			
+			if(rs.isBeforeFirst()) {
+				return -1;
+			}
+			else {
+				rs.close();
+				connection.setAutoCommit(false);
+				
+				statement = connection.prepareStatement("INSERT INTO booking(from_date, to_date, number_of_persons, user_id) values(?, ?, ?, ?)");
+				statement.setTimestamp(1, fromDate);
+				statement.setTimestamp(2, toDate);
+				statement.setInt(3, numberOfPersons);
+				statement.setLong(4, userId);
+				statement.executeUpdate();
+				
+				id = getInsertedRowId();
+				
+				for (int gridId : gridIds) {
+					statement = connection.prepareStatement("INSERT INTO booking_umbrellas(booking_id, umbrella_grid_id) values(?, ?)");
+					statement.setLong(1, id);
+					statement.setInt(2, gridId);
+					statement.executeUpdate();
+				}
+				
+				id = getInsertedRowId();
+				
+				connection.commit();
+				
+				created = 1;
+			}
+			
+			connection.close();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+			try {
+				if(!connection.isClosed()) connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+		}
+		
+		return created;
+	}
 }
