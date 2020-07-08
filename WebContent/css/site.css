@@ -2,3 +2,9 @@
     background-color: #ffffff;
     opacity: 1;
 }
+
+
+.reviews {
+  overflow-x: auto;
+  white-space: nowrap;
+}

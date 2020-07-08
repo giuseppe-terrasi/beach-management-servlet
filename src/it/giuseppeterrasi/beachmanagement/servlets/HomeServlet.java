@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
+import it.giuseppeterrasi.beachmanagement.daos.ReviewDao;
 import it.giuseppeterrasi.beachmanagement.daos.UmbrellaGridDao;
 
 /**
@@ -38,11 +39,16 @@ public class HomeServlet extends HttpServlet {
 		
 		DataSource dataSource = (DataSource) getServletContext().getAttribute("datasource");
 		UmbrellaGridDao umbrellaGridDao = new UmbrellaGridDao(dataSource);
+		ReviewDao reviewDao = new ReviewDao(dataSource);
 		
 		Date now =  Calendar.getInstance().getTime();
 		
 		Set<Entry<Integer, List<UmbrellaGridDao>>> grid = umbrellaGridDao.getCurrentGridStatus();
+		
+		List<ReviewDao> reviews = reviewDao.getReviews(5);
+		
 		request.setAttribute("grid", grid);
+		request.setAttribute("reviews", reviews);
 		request.setAttribute("now", new SimpleDateFormat("dd/MM/yyyy HH:mm").format(now));
 		request.setAttribute("cssActivePage", "home");
 		request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);
