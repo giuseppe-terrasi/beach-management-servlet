@@ -49,6 +49,7 @@ public class HomeServlet extends HttpServlet {
 		
 		request.setAttribute("grid", grid);
 		request.setAttribute("reviews", reviews);
+		request.setAttribute("review", reviewDao);
 		request.setAttribute("now", new SimpleDateFormat("dd/MM/yyyy HH:mm").format(now));
 		request.setAttribute("cssActivePage", "home");
 		request.getRequestDispatcher("/WEB-INF/views/home.jsp").forward(request, response);

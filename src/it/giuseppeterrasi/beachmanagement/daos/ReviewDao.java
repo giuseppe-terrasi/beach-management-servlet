@@ -93,6 +93,21 @@ public class ReviewDao extends BaseDao {
 
 	public int save() {
 		int created = 0;
+		
+		if(score <= 0 || score > 5 ) {
+			errors.put("score","Score must be between 1 and 5");
+		}
+		
+		if(title == null || title.isEmpty()) {
+			errors.put("title","Title is required");
+		}
+		
+		if(message == null || message.isEmpty()) {
+			errors.put("message","Message is required");
+		}
+		
+		if(errors.size() > 0) return -1;
+		
 		try {
 			connection = dataSource.getConnection();
 			PreparedStatement statement = connection.prepareStatement("INSERT INTO reviews(user_id, score, title, message, reviewed_on) values(?, ?, ?, ?, ?)");
@@ -106,10 +121,13 @@ public class ReviewDao extends BaseDao {
 			id = getInsertedRowId();
 			
 			created = 1;
+			insertSucceded = true;
 			connection.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
+			errors.put("error", "An error occurred while savig the data");
+			created = -1;
 		}
 		
 		return created;

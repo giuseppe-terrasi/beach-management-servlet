@@ -5,6 +5,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -19,8 +21,13 @@ public abstract class BaseDao implements Serializable {
 	
 	protected Connection connection;
 	
+	protected Map<String, String> errors; 
+	
+	protected boolean insertSucceded;
+	
 	public BaseDao(DataSource dataSource) {
 		this.dataSource = dataSource;
+		errors = new HashMap<String, String>();
 	}
 	
 	protected int getInsertedRowId() throws SQLException {
@@ -50,5 +57,21 @@ public abstract class BaseDao implements Serializable {
 
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
+	}
+
+	public Map<String, String> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(Map<String, String> errors) {
+		this.errors = errors;
+	}
+
+	public boolean isInsertSucceded() {
+		return insertSucceded;
+	}
+
+	public void setInsertSucceded(boolean insertSucceded) {
+		this.insertSucceded = insertSucceded;
 	}
 }

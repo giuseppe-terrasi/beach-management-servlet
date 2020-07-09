@@ -4,6 +4,38 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <t:maintemplate>
+    <jsp:attribute name="scripts">
+    	<script>
+	        function saveReview() {
+	            var form = document.getElementById('reviewForm');
+	           
+	            var data = new FormData(form);
+	
+	            $.ajax({
+	
+	                url : '/BeachManagement/saveReview',
+	                type : 'POST',
+	                data : data,
+	                dataType:'html',
+	                cache: false,
+	                processData: false,
+	                contentType: false,
+	                success : function(data, status, xhr) {
+	                	if(xhr.status == 201) {
+	                		location.reload();
+	                	}
+	                	else {
+	                		$('#reviewFormDiv').html(data);	
+	                	}
+	                },
+	                error : function(request,error)
+	                {
+	                    console.log("error", error);
+	                }
+	            });
+	        }
+    	</script>
+    </jsp:attribute>
     <jsp:body>
         <h1>Umbrella status at ${now}</h1>
         
@@ -41,30 +73,9 @@
 	        	</c:forEach>
        		</ul>
         </div>
-        <div class="row mt-3">
-			<div class="col-12">
-				<h5>Leave a review</h5>
-        		<form action="<c:url value="/saveReview" />" method="post">
-		        	<div class="form-group">
-		        		<label>Score</label>
-   			        	<select name="score" class="form-control">
-			        		<option value="1">1</option>
-			        		<option value="2">2</option>
-			        		<option value="3">3</option>
-			        		<option value="4">4</option>
-			        		<option value="5">5</option>
-			        	</select>
-		        	</div>
-		        	<div class="form-group">
-		        		<label>Title</label>
-		        		<input type="text" name="title" class="form-control" />	
-		        	</div>
-		        	<div class="form-group">
-		        		<label>Message</label>
-		        		<textarea rows="3" name="message" class="form-control"></textarea>
-		        	</div>
-		        	<button class="btn btn-primary" type="submit">Save</button>
-	        	</form>
+        <div class="row mt-3" >
+			<div class="col-12" id="reviewFormDiv">
+				<c:import url="fragments/review/reviewForm.jsp"/>
 			</div>
         </div>
     </jsp:body>

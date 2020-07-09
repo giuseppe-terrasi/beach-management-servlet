@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import it.giuseppeterrasi.beachmanagement.models.AppUser;
  * Servlet implementation class ReviewServlet
  */
 @WebServlet("/saveReview")
+@MultipartConfig
 public class ReviewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -55,7 +57,17 @@ public class ReviewServlet extends HttpServlet {
 		
 		reviewDao.save();
 		
-		response.sendRedirect(request.getContextPath() + "/");
+		request.setAttribute("review", reviewDao);
+		
+		
+		
+		if(reviewDao.isInsertSucceded()) {
+			
+			response.setStatus(201);
+		}
+		
+		request.getRequestDispatcher("/WEB-INF/views/fragments/review/reviewForm.jsp").forward(request, response);	
+		
 	}
 
 }
